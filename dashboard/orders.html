@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk - My Orders">
+    <title>My Orders | MealDesk Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
+    <link rel="stylesheet" href="../assets/css/rtl.css">
+
+    <style>
+        body { background-color: var(--md-bg-base); }
+        .md-dashboard-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background-color: var(--md-surface); border-right: 1px solid var(--md-border); z-index: 1040; transition: transform var(--md-transition-base); overflow-y: auto; display: flex; flex-direction: column; }
+        .md-dashboard-main { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+        .md-dashboard-topbar { height: 70px; background-color: var(--md-surface); border-bottom: 1px solid var(--md-border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 1030; }
+        .md-sidebar-brand { height: 70px; display: flex; align-items: center; padding: 0 1.5rem; font-family: var(--md-font-display); font-size: 1.25rem; font-weight: 800; color: var(--md-primary); border-bottom: 1px solid var(--md-border); }
+        .md-sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--md-text-muted); text-decoration: none; font-weight: 500; transition: all var(--md-transition-fast); border-left: 3px solid transparent; }
+        .md-sidebar-link:hover, .md-sidebar-link.active { color: var(--md-primary); background: var(--md-primary-light); border-left-color: var(--md-primary); }
+        .dashboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1035; display: none; }
+        .dashboard-overlay.active { display: block; }
+
+        @media (max-width: 1024px) {
+            .md-dashboard-sidebar { transform: translateX(-100%); }
+            .md-dashboard-sidebar.active { transform: translateX(0); }
+            .md-dashboard-main { margin-left: 0; }
+        }
+        [dir="rtl"] .md-dashboard-sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid var(--md-border); }
+        [dir="rtl"] .md-dashboard-main { margin-left: 0; margin-right: 260px; }
+        [dir="rtl"] .md-sidebar-link { border-left: none; border-right: 3px solid transparent; }
+        [dir="rtl"] .md-sidebar-link.active { border-right-color: var(--md-primary); }
+        
+        .order-card { background: var(--md-surface); border: 1px solid var(--md-border); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1rem; transition: all var(--md-transition-fast); display: flex; align-items: center; gap: 1.5rem; }
+        .order-card:hover { border-color: var(--md-primary-light); box-shadow: var(--md-shadow-sm); }
+        .order-img { width: 80px; height: 80px; object-fit: cover; border-radius: 0.5rem; }
+        .status-badge { padding: 0.35rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .status-preparing { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .status-ready { background: rgba(16,185,129,0.1); color: #10b981; }
+        .status-completed { background: var(--md-base); color: var(--md-text-muted); }
+
+        .nav-pills .nav-link { color: var(--md-text-muted); font-weight: 500; border-radius: 0.5rem; padding: 0.5rem 1.5rem; }
+        .nav-pills .nav-link.active { background-color: var(--md-primary); color: white; }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+</head>
+<body>
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="md-dashboard-sidebar">
+        <a href="../index.html" class="md-sidebar-brand text-decoration-none"><i class="bi bi-box-seam me-2 text-accent"></i> MealDesk</a>
+        <div class="py-3 flex-grow-1">
+            <span class="text-uppercase text-muted small fw-bold px-4 mb-2 d-block opacity-75">Overview</span>
+            <a href="index.html" class="md-sidebar-link"><i class="bi bi-grid"></i> Dashboard</a>
+            <a href="menu.html" class="md-sidebar-link"><i class="bi bi-cup-hot"></i> Today's Menu</a>
+            <a href="preorder.html" class="md-sidebar-link"><i class="bi bi-bag-plus"></i> Pre-Order</a>
+            <a href="orders.html" class="md-sidebar-link active"><i class="bi bi-receipt"></i> My Orders</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Finance</span>
+            <a href="wallet.html" class="md-sidebar-link"><i class="bi bi-wallet2"></i> Wallet</a>
+            <a href="transactions.html" class="md-sidebar-link"><i class="bi bi-arrow-left-right"></i> Transactions</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Account</span>
+            <a href="profile.html" class="md-sidebar-link"><i class="bi bi-person"></i> Profile</a>
+            <a href="notifications.html" class="md-sidebar-link"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html" class="md-sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+        </div>
+    </aside>
+
+    <main class="md-dashboard-main">
+        <header class="md-dashboard-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-muted p-0 d-lg-none" id="dashboardSidebarToggle"><i class="bi bi-list fs-3"></i></button>
+                <h5 class="mb-0 fw-bold d-none d-md-block">My Orders</h5>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <button class="md-icon-btn theme-toggle-btn border-0"><i class="bi bi-moon"></i></button>
+                <button class="md-icon-btn rtl-toggle-btn border-0"><i class="bi bi-translate"></i></button>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="rounded-circle" width="40" height="40">
+            </div>
+        </header>
+
+        <div class="p-4 flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <ul class="nav nav-pills" id="ordersTab" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active shadow-sm" data-bs-toggle="pill" data-bs-target="#activeOrders">Active Orders</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pastOrders">Order History</button></li>
+                </ul>
+                <div class="input-group" style="width: 250px;">
+                    <span class="input-group-text bg-surface border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0 bg-surface" placeholder="Search orders...">
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <!-- Active Orders Tab -->
+                <div class="tab-pane fade show active" id="activeOrders">
+                    <div class="order-card reveal-slide-up">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="order-img" alt="Salad">
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 class="fw-bold mb-0">Grilled Chicken Salad (x1)</h6>
+                                <span class="status-badge status-ready"><i class="bi bi-bell-fill me-1"></i> Ready for Pickup</span>
+                            </div>
+                            <p class="text-muted small mb-2">Order #MD4930 &middot; 14 Aug 2026</p>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="fw-bold text-accent">₹231.00</span>
+                                <span class="badge bg-base text-muted border"><i class="bi bi-clock me-1"></i> Pickup: 1:00 PM</span>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="order-details.html" class="btn btn-primary rounded-pill px-4">View QR Code</a>
+                        </div>
+                    </div>
+
+                    <div class="order-card reveal-slide-up" style="animation-delay: 0.1s;">
+                        <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="order-img" alt="Sushi">
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 class="fw-bold mb-0">Spicy Tuna Roll (x2)</h6>
+                                <span class="status-badge status-preparing"><i class="bi bi-fire me-1"></i> Preparing</span>
+                            </div>
+                            <p class="text-muted small mb-2">Order #MD4935 &middot; 14 Aug 2026</p>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="fw-bold text-accent">₹672.00</span>
+                                <span class="badge bg-base text-muted border"><i class="bi bi-clock me-1"></i> Pickup: 2:00 PM</span>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="order-details.html" class="btn btn-outline-secondary rounded-pill px-4">Track Order</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Past Orders Tab -->
+                <div class="tab-pane fade" id="pastOrders">
+                    <div class="order-card">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="order-img" alt="Pizza" style="filter: grayscale(0.5);">
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 class="fw-bold mb-0">Margherita Pizza (x1)</h6>
+                                <span class="status-badge status-completed"><i class="bi bi-check-lg me-1"></i> Completed</span>
+                            </div>
+                            <p class="text-muted small mb-2">Order #MD4802 &middot; 12 Aug 2026</p>
+                            <span class="fw-bold text-muted">₹250.00</span>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-primary rounded-pill px-4"><i class="bi bi-arrow-clockwise me-1"></i> Reorder</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card">
+                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="order-img" alt="Sandwich" style="filter: grayscale(0.5);">
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 class="fw-bold mb-0">Club Sandwich (x1)</h6>
+                                <span class="status-badge status-completed"><i class="bi bi-check-lg me-1"></i> Completed</span>
+                            </div>
+                            <p class="text-muted small mb-2">Order #MD4710 &middot; 10 Aug 2026</p>
+                            <span class="fw-bold text-muted">₹180.00</span>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-primary rounded-pill px-4"><i class="bi bi-arrow-clockwise me-1"></i> Reorder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>
+
+

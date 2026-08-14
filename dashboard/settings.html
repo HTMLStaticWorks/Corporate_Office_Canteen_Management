@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk - Settings">
+    <title>Settings | MealDesk Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
+    <link rel="stylesheet" href="../assets/css/rtl.css">
+
+    <style>
+        body { background-color: var(--md-bg-base); }
+        .md-dashboard-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background-color: var(--md-surface); border-right: 1px solid var(--md-border); z-index: 1040; transition: transform var(--md-transition-base); overflow-y: auto; display: flex; flex-direction: column; }
+        .md-dashboard-main { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+        .md-dashboard-topbar { height: 70px; background-color: var(--md-surface); border-bottom: 1px solid var(--md-border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 1030; }
+        .md-sidebar-brand { height: 70px; display: flex; align-items: center; padding: 0 1.5rem; font-family: var(--md-font-display); font-size: 1.25rem; font-weight: 800; color: var(--md-primary); border-bottom: 1px solid var(--md-border); }
+        .md-sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--md-text-muted); text-decoration: none; font-weight: 500; transition: all var(--md-transition-fast); border-left: 3px solid transparent; }
+        .md-sidebar-link:hover, .md-sidebar-link.active { color: var(--md-primary); background: var(--md-primary-light); border-left-color: var(--md-primary); }
+        .dashboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1035; display: none; }
+        .dashboard-overlay.active { display: block; }
+
+        @media (max-width: 1024px) {
+            .md-dashboard-sidebar { transform: translateX(-100%); }
+            .md-dashboard-sidebar.active { transform: translateX(0); }
+            .md-dashboard-main { margin-left: 0; }
+        }
+        [dir="rtl"] .md-dashboard-sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid var(--md-border); }
+        [dir="rtl"] .md-dashboard-main { margin-left: 0; margin-right: 260px; }
+        [dir="rtl"] .md-sidebar-link { border-left: none; border-right: 3px solid transparent; }
+        [dir="rtl"] .md-sidebar-link.active { border-right-color: var(--md-primary); }
+        
+        .settings-card { background: var(--md-surface); border: 1px solid var(--md-border); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--md-shadow-sm); }
+        .settings-group { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--md-border); }
+        .settings-group:last-child { border-bottom: none; padding-bottom: 0; }
+        
+        /* Custom Switch */
+        .form-switch .form-check-input { width: 2.5em; height: 1.25em; cursor: pointer; }
+        .form-switch .form-check-input:checked { background-color: var(--md-primary); border-color: var(--md-primary); }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+</head>
+<body>
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="md-dashboard-sidebar">
+        <a href="../index.html" class="md-sidebar-brand text-decoration-none"><i class="bi bi-box-seam me-2 text-accent"></i> MealDesk</a>
+        <div class="py-3 flex-grow-1">
+            <span class="text-uppercase text-muted small fw-bold px-4 mb-2 d-block opacity-75">Overview</span>
+            <a href="index.html" class="md-sidebar-link"><i class="bi bi-grid"></i> Dashboard</a>
+            <a href="menu.html" class="md-sidebar-link"><i class="bi bi-cup-hot"></i> Today's Menu</a>
+            <a href="preorder.html" class="md-sidebar-link"><i class="bi bi-bag-plus"></i> Pre-Order</a>
+            <a href="orders.html" class="md-sidebar-link"><i class="bi bi-receipt"></i> My Orders</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Finance</span>
+            <a href="wallet.html" class="md-sidebar-link"><i class="bi bi-wallet2"></i> Wallet</a>
+            <a href="transactions.html" class="md-sidebar-link"><i class="bi bi-arrow-left-right"></i> Transactions</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Account</span>
+            <a href="profile.html" class="md-sidebar-link"><i class="bi bi-person"></i> Profile</a>
+            <a href="notifications.html" class="md-sidebar-link"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html" class="md-sidebar-link active"><i class="bi bi-gear"></i> Settings</a>
+        </div>
+    </aside>
+
+    <main class="md-dashboard-main">
+        <header class="md-dashboard-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-muted p-0 d-lg-none" id="dashboardSidebarToggle"><i class="bi bi-list fs-3"></i></button>
+                <h5 class="mb-0 fw-bold d-none d-md-block">Settings</h5>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <button class="md-icon-btn theme-toggle-btn border-0"><i class="bi bi-moon"></i></button>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="rounded-circle" width="40" height="40">
+            </div>
+        </header>
+
+        <div class="p-4 flex-grow-1 max-w-900 mx-auto w-100">
+            
+            <!-- Preferences -->
+            <div class="settings-card reveal-slide-up">
+                <h5 class="fw-bold mb-4">Application Preferences</h5>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Language</h6>
+                        <p class="text-muted small mb-0">Select your preferred language.</p>
+                    </div>
+                    <select class="form-select bg-base border-border shadow-none" style="width: 150px;">
+                        <option value="en" selected>English</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                </div>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Dark Mode</h6>
+                        <p class="text-muted small mb-0">Switch between light and dark themes.</p>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input shadow-none" type="checkbox" id="themeSwitchSetting">
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Right-to-Left (RTL) Layout</h6>
+                        <p class="text-muted small mb-0">Optimize layout for Arabic or Hebrew.</p>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input shadow-none" type="checkbox" id="rtlSwitchSetting">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notifications -->
+            <div class="settings-card reveal-slide-up" style="animation-delay: 0.1s;">
+                <h5 class="fw-bold mb-4">Notification Settings</h5>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Order Updates</h6>
+                        <p class="text-muted small mb-0">Get notified when your meal is being prepared and ready for pickup.</p>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input shadow-none" type="checkbox" checked>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Wallet Activity</h6>
+                        <p class="text-muted small mb-0">Receive alerts for top-ups, deductions, and corporate subsidy credits.</p>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input shadow-none" type="checkbox" checked>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Weekly Menu Digest</h6>
+                        <p class="text-muted small mb-0">An email summary of next week's menu and special items.</p>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input shadow-none" type="checkbox">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="settings-card reveal-slide-up" style="animation-delay: 0.2s;">
+                <h5 class="fw-bold mb-4">Security</h5>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Change Password</h6>
+                        <p class="text-muted small mb-0">Update your account password regularly.</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3">Update</button>
+                </div>
+                <div class="settings-group">
+                    <div>
+                        <h6 class="fw-bold mb-1">Two-Factor Authentication (2FA)</h6>
+                        <p class="text-muted small mb-0">Add an extra layer of security to your wallet.</p>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input shadow-none" type="checkbox">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script>
+        // Sync settings switches with main toggles for demo
+        document.getElementById('themeSwitchSetting').addEventListener('change', function() {
+            if(this.checked) document.body.setAttribute('data-theme', 'dark');
+            else document.body.removeAttribute('data-theme');
+        });
+        document.getElementById('rtlSwitchSetting').addEventListener('change', function() {
+            if(this.checked) document.documentElement.setAttribute('dir', 'rtl');
+            else document.documentElement.setAttribute('dir', 'ltr');
+        });
+    </script>
+</body>
+</html>
+
+

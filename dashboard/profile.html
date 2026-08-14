@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk - User Profile">
+    <title>Profile | MealDesk Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
+    <link rel="stylesheet" href="../assets/css/rtl.css">
+
+    <style>
+        body { background-color: var(--md-bg-base); }
+        .md-dashboard-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background-color: var(--md-surface); border-right: 1px solid var(--md-border); z-index: 1040; transition: transform var(--md-transition-base); overflow-y: auto; display: flex; flex-direction: column; }
+        .md-dashboard-main { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+        .md-dashboard-topbar { height: 70px; background-color: var(--md-surface); border-bottom: 1px solid var(--md-border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 1030; }
+        .md-sidebar-brand { height: 70px; display: flex; align-items: center; padding: 0 1.5rem; font-family: var(--md-font-display); font-size: 1.25rem; font-weight: 800; color: var(--md-primary); border-bottom: 1px solid var(--md-border); }
+        .md-sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--md-text-muted); text-decoration: none; font-weight: 500; transition: all var(--md-transition-fast); border-left: 3px solid transparent; }
+        .md-sidebar-link:hover, .md-sidebar-link.active { color: var(--md-primary); background: var(--md-primary-light); border-left-color: var(--md-primary); }
+        .dashboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1035; display: none; }
+        .dashboard-overlay.active { display: block; }
+
+        @media (max-width: 1024px) {
+            .md-dashboard-sidebar { transform: translateX(-100%); }
+            .md-dashboard-sidebar.active { transform: translateX(0); }
+            .md-dashboard-main { margin-left: 0; }
+        }
+        
+        .profile-header-img { height: 180px; width: 100%; object-fit: cover; border-radius: 1.5rem 1.5rem 0 0; }
+        .profile-avatar-wrap { position: relative; width: 120px; height: 120px; margin-top: -60px; margin-left: 2rem; border-radius: 50%; padding: 4px; background: var(--md-surface); }
+        [dir="rtl"] .profile-avatar-wrap { margin-left: 0; margin-right: 2rem; }
+        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .edit-avatar-btn { position: absolute; bottom: 0; right: 0; background: var(--md-primary); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--md-surface); }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+</head>
+<body>
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="md-dashboard-sidebar">
+        <a href="../index.html" class="md-sidebar-brand text-decoration-none"><i class="bi bi-box-seam me-2 text-accent"></i> MealDesk</a>
+        <div class="py-3 flex-grow-1">
+            <span class="text-uppercase text-muted small fw-bold px-4 mb-2 d-block opacity-75">Overview</span>
+            <a href="index.html" class="md-sidebar-link"><i class="bi bi-grid"></i> Dashboard</a>
+            <a href="menu.html" class="md-sidebar-link"><i class="bi bi-cup-hot"></i> Today's Menu</a>
+            <a href="preorder.html" class="md-sidebar-link"><i class="bi bi-bag-plus"></i> Pre-Order</a>
+            <a href="orders.html" class="md-sidebar-link"><i class="bi bi-receipt"></i> My Orders</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Finance</span>
+            <a href="wallet.html" class="md-sidebar-link"><i class="bi bi-wallet2"></i> Wallet</a>
+            <a href="transactions.html" class="md-sidebar-link"><i class="bi bi-arrow-left-right"></i> Transactions</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Account</span>
+            <a href="profile.html" class="md-sidebar-link active"><i class="bi bi-person"></i> Profile</a>
+            <a href="notifications.html" class="md-sidebar-link"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html" class="md-sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+        </div>
+    </aside>
+
+    <main class="md-dashboard-main">
+        <header class="md-dashboard-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-muted p-0 d-lg-none" id="dashboardSidebarToggle"><i class="bi bi-list fs-3"></i></button>
+                <h5 class="mb-0 fw-bold d-none d-md-block">My Profile</h5>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <button class="md-icon-btn theme-toggle-btn border-0"><i class="bi bi-moon"></i></button>
+                <button class="md-icon-btn rtl-toggle-btn border-0"><i class="bi bi-translate"></i></button>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="rounded-circle" width="40" height="40">
+            </div>
+        </header>
+
+        <div class="p-4 flex-grow-1 max-w-900 mx-auto w-100">
+            
+            <div class="card border-0 shadow-sm rounded-4 mb-4 reveal-fade">
+                <img src="https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cover" class="profile-header-img">
+                <div class="card-body p-0 pb-4">
+                    <div class="d-flex justify-content-between align-items-end mb-3 pe-4">
+                        <div class="profile-avatar-wrap">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Profile" class="profile-avatar">
+                            <button class="edit-avatar-btn"><i class="bi bi-camera-fill"></i></button>
+                        </div>
+                        <button class="btn btn-outline-primary rounded-pill px-4 fw-bold">Edit Profile</button>
+                    </div>
+                    <div class="px-4">
+                        <h4 class="fw-bold mb-1">Alex Johnson</h4>
+                        <p class="text-muted mb-2">Senior Developer &middot; Tech Department</p>
+                        <div class="d-flex gap-3 text-muted small mb-4">
+                            <span><i class="bi bi-geo-alt me-1"></i> Floor 4, North Wing</span>
+                            <span><i class="bi bi-building me-1"></i> Global Tech Corp</span>
+                            <span><i class="bi bi-person-badge me-1"></i> EMP-84920</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-7">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 reveal-slide-up">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Personal Information</h5>
+                            
+                            <form>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-sm-6">
+                                        <label class="form-label small fw-bold text-muted">First Name</label>
+                                        <input type="text" class="form-control" value="Alex" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label small fw-bold text-muted">Last Name</label>
+                                        <input type="text" class="form-control" value="Johnson" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label small fw-bold text-muted">Work Email</label>
+                                        <input type="email" class="form-control" value="alex.johnson@globaltech.com" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label small fw-bold text-muted">Phone Number</label>
+                                        <input type="tel" class="form-control" value="+1 (555) 123-4567" readonly>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 reveal-slide-up" style="animation-delay: 0.1s;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold mb-0">Dietary Preferences</h5>
+                                <button class="btn btn-sm btn-light"><i class="bi bi-pencil"></i></button>
+                            </div>
+                            
+                            <p class="text-muted small mb-4">These preferences are used to highlight suitable meals and warn you about allergens on the daily menu.</p>
+                            
+                            <div class="mb-4">
+                                <h6 class="small fw-bold text-uppercase text-muted mb-2">Diet Type</h6>
+                                <span class="badge bg-primary-light text-primary border border-primary px-3 py-2 rounded-pill me-2">Vegetarian</span>
+                            </div>
+                            
+                            <div>
+                                <h6 class="small fw-bold text-uppercase text-muted mb-2">Allergies / Avoids</h6>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill me-2 mb-2"><i class="bi bi-exclamation-triangle me-1"></i> Peanuts</span>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill me-2 mb-2"><i class="bi bi-exclamation-triangle me-1"></i> Shellfish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>
+
+

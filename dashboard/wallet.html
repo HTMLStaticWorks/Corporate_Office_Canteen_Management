@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk - Digital Wallet">
+    <title>Wallet | MealDesk Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
+    <link rel="stylesheet" href="../assets/css/rtl.css">
+
+    <style>
+        body { background-color: var(--md-bg-base); }
+        /* Dashboard Layout */
+        .md-dashboard-sidebar {
+            position: fixed; top: 0; left: 0; bottom: 0; width: 260px;
+            background-color: var(--md-surface); border-right: 1px solid var(--md-border);
+            z-index: 1040; transition: transform var(--md-transition-base); overflow-y: auto; display: flex; flex-direction: column;
+        }
+        .md-dashboard-main { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+        .md-dashboard-topbar {
+            height: 70px; background-color: var(--md-surface); border-bottom: 1px solid var(--md-border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 1030;
+        }
+        .md-sidebar-brand { height: 70px; display: flex; align-items: center; padding: 0 1.5rem; font-family: var(--md-font-display); font-size: 1.25rem; font-weight: 800; color: var(--md-primary); border-bottom: 1px solid var(--md-border); }
+        .md-sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--md-text-muted); text-decoration: none; font-weight: 500; transition: all var(--md-transition-fast); border-left: 3px solid transparent; }
+        .md-sidebar-link:hover, .md-sidebar-link.active { color: var(--md-primary); background: var(--md-primary-light); border-left-color: var(--md-primary); }
+        
+        .dashboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1035; display: none; }
+        .dashboard-overlay.active { display: block; }
+
+        @media (max-width: 1024px) {
+            .md-dashboard-sidebar { transform: translateX(-100%); }
+            .md-dashboard-sidebar.active { transform: translateX(0); }
+            .md-dashboard-main { margin-left: 0; }
+        }
+        [dir="rtl"] .md-dashboard-sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid var(--md-border); }
+        [dir="rtl"] .md-dashboard-main { margin-left: 0; margin-right: 260px; }
+        [dir="rtl"] .md-sidebar-link { border-left: none; border-right: 3px solid transparent; }
+        [dir="rtl"] .md-sidebar-link.active { border-right-color: var(--md-primary); }
+
+        /* Wallet Specific Styles */
+        .wallet-master-card {
+            background: linear-gradient(135deg, #024523, var(--md-primary));
+            border-radius: 1.5rem; padding: 2.5rem; color: white;
+            box-shadow: 0 15px 35px rgba(4, 106, 56, 0.3);
+            position: relative; overflow: hidden;
+        }
+        .wallet-master-card::before {
+            content: ''; position: absolute; top: -50%; right: -20%;
+            width: 400px; height: 400px; background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        
+        .quick-add-btn {
+            background: var(--md-surface); border: 1px solid var(--md-border);
+            padding: 0.75rem; border-radius: 0.75rem; color: var(--md-text-main);
+            font-weight: 600; cursor: pointer; transition: all var(--md-transition-fast); text-align: center; width: 100%;
+        }
+        .quick-add-btn:hover, .quick-add-btn.active {
+            border-color: var(--md-primary); background: var(--md-primary-light); color: var(--md-primary);
+        }
+        
+        .payment-method-card {
+            border: 1px solid var(--md-border); border-radius: 1rem; padding: 1rem;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1rem; background: var(--md-surface); transition: all var(--md-transition-fast);
+        }
+        .payment-method-card:hover { border-color: var(--md-primary-light); }
+        .card-brand-icon { width: 40px; height: 25px; border-radius: 4px; object-fit: contain; }
+        
+        .transaction-list { margin: 0; padding: 0; list-style: none; }
+        .transaction-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 0; border-bottom: 1px solid var(--md-border);
+        }
+        .transaction-row:last-child { border-bottom: none; padding-bottom: 0; }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+</head>
+<body>
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="md-dashboard-sidebar">
+        <a href="../index.html" class="md-sidebar-brand text-decoration-none"><i class="bi bi-box-seam me-2 text-accent"></i> MealDesk</a>
+        <div class="py-3 flex-grow-1">
+            <span class="text-uppercase text-muted small fw-bold px-4 mb-2 d-block opacity-75">Overview</span>
+            <a href="index.html" class="md-sidebar-link"><i class="bi bi-grid"></i> Dashboard</a>
+            <a href="menu.html" class="md-sidebar-link"><i class="bi bi-cup-hot"></i> Today's Menu</a>
+            <a href="preorder.html" class="md-sidebar-link"><i class="bi bi-bag-plus"></i> Pre-Order</a>
+            <a href="orders.html" class="md-sidebar-link"><i class="bi bi-receipt"></i> My Orders</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Finance</span>
+            <a href="wallet.html" class="md-sidebar-link active"><i class="bi bi-wallet2"></i> Wallet</a>
+            <a href="transactions.html" class="md-sidebar-link"><i class="bi bi-arrow-left-right"></i> Transactions</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Account</span>
+            <a href="profile.html" class="md-sidebar-link"><i class="bi bi-person"></i> Profile</a>
+            <a href="notifications.html" class="md-sidebar-link"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html" class="md-sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+        </div>
+    </aside>
+
+    <main class="md-dashboard-main">
+        <header class="md-dashboard-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-muted p-0 d-lg-none" id="dashboardSidebarToggle"><i class="bi bi-list fs-3"></i></button>
+                <h5 class="mb-0 fw-bold d-none d-md-block">My Wallet</h5>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <button class="md-icon-btn theme-toggle-btn border-0"><i class="bi bi-moon"></i></button>
+                <button class="md-icon-btn rtl-toggle-btn border-0"><i class="bi bi-translate"></i></button>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="rounded-circle" width="40" height="40">
+            </div>
+        </header>
+
+        <div class="p-4 flex-grow-1">
+            <div class="row g-4">
+                <!-- Left Column: Balance & Add Money -->
+                <div class="col-xl-7">
+                    <!-- Master Card -->
+                    <div class="wallet-master-card mb-4 reveal-scale">
+                        <div class="d-flex justify-content-between align-items-start mb-4 position-relative z-index-1">
+                            <div>
+                                <p class="mb-1 text-white-50 text-uppercase fw-bold small">Current Balance</p>
+                                <h1 class="display-4 fw-bold mb-0">₹1,250.00</h1>
+                            </div>
+                            <i class="bi bi-wallet2 display-6 opacity-50"></i>
+                        </div>
+                        <div class="d-flex gap-4 position-relative z-index-1">
+                            <div>
+                                <p class="mb-0 text-white-50 small">Monthly Spent</p>
+                                <h6 class="mb-0 fw-bold">₹3,450.00</h6>
+                            </div>
+                            <div>
+                                <p class="mb-0 text-white-50 small">Subsidy Added</p>
+                                <h6 class="mb-0 fw-bold">₹2,000.00</h6>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Money Section -->
+                    <div class="card border-0 shadow-sm rounded-4 mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Add Money to Wallet</h5>
+                            
+                            <label class="form-label small fw-bold text-muted">Quick Add Amounts</label>
+                            <div class="row g-2 mb-4">
+                                <div class="col-3"><div class="quick-add-btn">₹100</div></div>
+                                <div class="col-3"><div class="quick-add-btn">₹250</div></div>
+                                <div class="col-3"><div class="quick-add-btn active">₹500</div></div>
+                                <div class="col-3"><div class="quick-add-btn">₹1000</div></div>
+                            </div>
+                            
+                            <label class="form-label small fw-bold text-muted">Or enter custom amount</label>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text bg-transparent border-end-0 fw-bold">₹</span>
+                                <input type="number" class="form-control border-start-0 ps-0 shadow-none" value="500">
+                            </div>
+                            
+                            <h6 class="fw-bold mb-3 small text-muted text-uppercase">Payment Method</h6>
+                            <div class="payment-method-card border-primary bg-primary-light">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-white p-1 rounded border"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" class="card-brand-icon" alt="Mastercard"></div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold small">Mastercard ending in 4242</h6>
+                                        <small class="text-muted">Expires 12/28</small>
+                                    </div>
+                                </div>
+                                <i class="bi bi-check-circle-fill text-primary"></i>
+                            </div>
+                            <div class="payment-method-card">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-white p-1 rounded border d-flex align-items-center justify-content-center" style="width:40px;height:25px;"><i class="bi bi-phone"></i></div>
+                                    <h6 class="mb-0 fw-bold small">UPI ID (alex@upi)</h6>
+                                </div>
+                                <i class="bi bi-circle text-muted"></i>
+                            </div>
+                            <div class="payment-method-card border-dashed cursor-pointer text-primary bg-transparent justify-content-center">
+                                <i class="bi bi-plus-lg me-2"></i> Add New Payment Method
+                            </div>
+                            
+                            <button class="btn btn-primary w-100 rounded-pill py-2 mt-2 fw-bold" onclick="alert('Redirecting to payment gateway...')">Proceed to Pay ₹500</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Recent Activity -->
+                <div class="col-xl-5">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-4 px-4 pb-0">
+                            <h5 class="fw-bold mb-0">Wallet History</h5>
+                            <a href="transactions.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">View All</a>
+                        </div>
+                        <div class="card-body p-4">
+                            <ul class="transaction-list">
+                                <li class="transaction-row">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-danger bg-opacity-10 text-danger rounded p-2"><i class="bi bi-cup-hot"></i></div>
+                                        <div>
+                                            <h6 class="mb-0 small fw-bold">Lunch Pre-Order (#MD4930)</h6>
+                                            <small class="text-muted">Today, 10:15 AM</small>
+                                        </div>
+                                    </div>
+                                    <span class="fw-bold text-danger">-₹231</span>
+                                </li>
+                                <li class="transaction-row">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-success bg-opacity-10 text-success rounded p-2"><i class="bi bi-arrow-down"></i></div>
+                                        <div>
+                                            <h6 class="mb-0 small fw-bold">Card Top-up</h6>
+                                            <small class="text-muted">Yesterday, 14:00 PM</small>
+                                        </div>
+                                    </div>
+                                    <span class="fw-bold text-success">+₹1,000</span>
+                                </li>
+                                <li class="transaction-row">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-danger bg-opacity-10 text-danger rounded p-2"><i class="bi bi-cup"></i></div>
+                                        <div>
+                                            <h6 class="mb-0 small fw-bold">Breakfast Combo</h6>
+                                            <small class="text-muted">12 Aug, 08:30 AM</small>
+                                        </div>
+                                    </div>
+                                    <span class="fw-bold text-danger">-₹150</span>
+                                </li>
+                                <li class="transaction-row">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-success bg-opacity-10 text-success rounded p-2"><i class="bi bi-building"></i></div>
+                                        <div>
+                                            <h6 class="mb-0 small fw-bold">Corporate Monthly Subsidy</h6>
+                                            <small class="text-muted">01 Aug, 00:00 AM</small>
+                                        </div>
+                                    </div>
+                                    <span class="fw-bold text-success">+₹2,000</span>
+                                </li>
+                                <li class="transaction-row">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-danger bg-opacity-10 text-danger rounded p-2"><i class="bi bi-bag"></i></div>
+                                        <div>
+                                            <h6 class="mb-0 small fw-bold">Snack (Counter 1)</h6>
+                                            <small class="text-muted">30 Jul, 15:45 PM</small>
+                                        </div>
+                                    </div>
+                                    <span class="fw-bold text-danger">-₹85</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script>
+        // Simple script to toggle active state on quick add buttons
+        document.querySelectorAll('.quick-add-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.quick-add-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // Update input value (removing the ₹ sign)
+                const amount = this.innerText.replace('₹', '');
+                document.querySelector('input[type="number"]').value = amount;
+                // Update button text
+                document.querySelector('.btn-primary').innerText = `Proceed to Pay ₹${amount}`;
+            });
+        });
+        
+        // Update button when input changes manually
+        document.querySelector('input[type="number"]').addEventListener('input', function() {
+            document.querySelectorAll('.quick-add-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.btn-primary').innerText = `Proceed to Pay ₹${this.value || 0}`;
+        });
+    </script>
+</body>
+</html>
+
+

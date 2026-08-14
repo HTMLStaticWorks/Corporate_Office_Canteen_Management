@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk Services - Corporate Dining Solutions">
+    <title>Services | MealDesk</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        .service-hero {
+            padding: 160px 0 100px;
+            background-image: url('https://images.pexels.com/photos/19069607/pexels-photo-19069607.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        .service-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        /* Force white text over the dark image */
+        .service-hero h1, .service-hero p { color: #fff !important; }
+        .service-block {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--md-border);
+        }
+        .service-block:nth-child(even) { background-color: var(--md-base); }
+        .service-block:last-child { border-bottom: none; }
+        
+        .service-img-wrapper {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: var(--md-shadow-lg);
+        }
+        .service-img-wrapper img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform var(--md-transition-slow);
+        }
+        .service-img-wrapper:hover img { transform: scale(1.05); }
+        .service-icon-badge {
+            position: absolute;
+            bottom: -20px;
+            right: 40px;
+            width: 80px; height: 80px;
+            background: var(--md-primary);
+            color: white;
+            border-radius: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: var(--md-shadow-md);
+        }
+        [dir="rtl"] .service-icon-badge { right: auto; left: 40px; }
+        
+        .feature-list li { margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-list i { color: var(--md-accent); font-size: 1.25rem; }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="md-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="navbar-brand">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="d-none d-xl-flex align-items-center gap-3">
+                <a href="index.html" class="md-nav-link">Home</a>
+                <a href="home-2.html" class="md-nav-link">Home 2</a>
+                <a href="about.html" class="md-nav-link">About</a>
+                <a href="services.html" class="md-nav-link active">Services</a>
+                <a href="menu.html" class="md-nav-link">Menu</a>
+                <a href="blog.html" class="md-nav-link">Blog</a>
+                <a href="contact.html" class="md-nav-link">Contact</a>
+                <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+            </nav>
+            
+            <div class="d-flex align-items-center gap-2">
+                <!-- Desktop Only Toggles & CTA -->
+                <div class="d-none d-xl-flex align-items-center gap-2">
+                    <button class="md-icon-btn theme-toggle-btn" aria-label="Toggle Theme">
+                        <i class="bi bi-moon"></i>
+                    </button>
+                    <button class="md-icon-btn rtl-toggle-btn" aria-label="Toggle RTL">
+                        <i class="bi bi-translate"></i>
+                    </button>
+                    <a href="signup.html" class="btn-md-primary text-decoration-none ms-3">Sign Up</a>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="md-icon-btn d-xl-none ms-2" id="mobileMenuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="md-sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="md-mobile-sidebar d-xl-none" id="mobileSidebar">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="index.html" class="navbar-brand fs-4 fw-bold text-primary">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            <button class="md-icon-btn border-0" id="sidebarClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <nav class="d-flex flex-column gap-2 mb-4">
+            <a href="index.html" class="md-nav-link">Home</a>
+            <a href="home-2.html" class="md-nav-link">Home 2</a>
+            <a href="about.html" class="md-nav-link">About</a>
+            <a href="services.html" class="md-nav-link active">Services</a>
+            <a href="menu.html" class="md-nav-link">Menu</a>
+            <a href="blog.html" class="md-nav-link">Blog</a>
+            <a href="contact.html" class="md-nav-link">Contact</a>
+            <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+        </nav>
+        <hr class="text-muted">
+        <div class="d-flex justify-content-center gap-3 mt-4 mb-2">
+            <button class="md-icon-btn theme-toggle-btn bg-surface border" aria-label="Toggle Theme">
+                <i class="bi bi-moon"></i>
+            </button>
+            <button class="md-icon-btn rtl-toggle-btn bg-surface border" aria-label="Toggle RTL">
+                <i class="bi bi-translate"></i>
+            </button>
+        </div>
+        <div class="d-flex flex-column gap-3 mt-4">
+            <a href="signup.html" class="btn-md-primary text-center text-decoration-none text-white">Sign Up</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Section 1: Service Hero -->
+        <section class="service-hero text-center">
+            <div class="container reveal-fade">
+                <h1 class="display-3 fw-bold mb-4">Enterprise Dining Solutions</h1>
+                <p class="lead text-muted max-w-700 mx-auto">We provide a comprehensive suite of digital tools designed to modernize corporate cafeterias and enhance the daily employee experience.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Employee Meal Pre-Ordering -->
+        <section class="service-block bg-base">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0 reveal-slide-left">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mobile Ordering App">
+                            <div class="service-icon-badge"><i class="bi bi-phone"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 reveal-slide-right">
+                        <h2 class="display-6 mb-4">Digital Pre-Ordering</h2>
+                        <p class="text-muted mb-4">Empower your employees to order their lunch straight from their desks or during their commute. No more waiting in long lines during the peak lunch hour.</p>
+                        <ul class="list-unstyled feature-list mb-4">
+                            <li><i class="bi bi-check2-circle"></i> Browse daily rotating menus with nutritional information.</li>
+                            <li><i class="bi bi-check2-circle"></i> Schedule precise pickup times at designated counters.</li>
+                            <li><i class="bi bi-check2-circle"></i> Filter meals by dietary restrictions and allergens.</li>
+                        </ul>
+                        <a href="how-it-works.html" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">See How It Works</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Prepaid Wallet Management -->
+        <section class="service-block bg-surface">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 mb-5 mb-lg-0 order-lg-2 reveal-slide-right">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Contactless Payment">
+                            <div class="service-icon-badge" style="right: auto; left: 40px; background: var(--md-accent);"><i class="bi bi-wallet2"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 me-auto order-lg-1 reveal-slide-left">
+                        <h2 class="display-6 mb-4">Closed-Loop Wallet System</h2>
+                        <p class="text-muted mb-4">Eliminate cash handling completely. Our secure digital wallet allows employees to top-up funds or connect directly to corporate payroll subsidies.</p>
+                        <ul class="list-unstyled feature-list mb-4">
+                            <li><i class="bi bi-check2-circle"></i> Instant zero-fee top-ups via credit card or UPI.</li>
+                            <li><i class="bi bi-check2-circle"></i> Automated monthly allowances for corporate subsidized meals.</li>
+                            <li><i class="bi bi-check2-circle"></i> Complete transaction history and exportable receipts.</li>
+                        </ul>
+                        <a href="dashboard/wallet.html" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">View Wallet Demo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Corporate Meal Planning -->
+        <section class="service-block bg-base">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0 reveal-slide-left">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kitchen Operations">
+                            <div class="service-icon-badge"><i class="bi bi-graph-up-arrow"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 reveal-slide-right">
+                        <h2 class="display-6 mb-4">Kitchen Operations & Analytics</h2>
+                        <p class="text-muted mb-4">We provide canteen operators with intelligent dashboards to manage inventory, view live orders, and analyze consumption trends.</p>
+                        <ul class="list-unstyled feature-list mb-4">
+                            <li><i class="bi bi-check2-circle"></i> Live Kitchen Display System (KDS) for tracking prep times.</li>
+                            <li><i class="bi bi-check2-circle"></i> Exact meal counts based on pre-orders to minimize food waste.</li>
+                            <li><i class="bi bi-check2-circle"></i> Real-time feedback and ratings from employees.</li>
+                        </ul>
+                        <a href="contact.html" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">Request Demo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Service CTA -->
+        <section class="section-padding bg-surface">
+            <div class="container">
+                <div class="bg-primary text-white rounded-4 p-5 text-center reveal-scale" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+                    <h2 class="display-5 fw-bold mb-4">Ready to modernize your canteen?</h2>
+                    <p class="lead mb-5 opacity-75 max-w-700 mx-auto">Get in touch with our enterprise team to discuss custom integrations, pricing, and deployment timelines for your campus.</p>
+                    <a href="contact.html" class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-primary">Contact Enterprise Team</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="md-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="index.html" class="footer-brand text-decoration-none">
+                        <i class="bi bi-box-seam"></i> MealDesk
+                    </a>
+                    <p class="text-muted pe-lg-4">Premium corporate canteen management platform streamlining food ordering, payments, and pickup for modern workplaces.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none">Home</a></li>
+                        <li><a href="about.html" class="text-decoration-none">About Us</a></li>
+                        <li><a href="services.html" class="text-decoration-none">Services</a></li>
+                        <li><a href="how-it-works.html" class="text-decoration-none">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="menu.html" class="text-decoration-none">Today's Menu</a></li>
+                        <li><a href="blog.html" class="text-decoration-none">Blog</a></li>
+                        <li><a href="faq.html" class="text-decoration-none">FAQ</a></li>
+                        <li><a href="contact.html" class="text-decoration-none">Contact</a><a href="dashboard/index.html" class="md-nav-link">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5>Subscribe to Newsletter</h5>
+                    <p class="text-muted small">Get updates on new menu items and healthy eating tips.</p>
+                    <form class="mt-3 needs-validation" novalidate>
+                        <div class="input-group">
+                            <input type="email" class="form-control border-0 bg-secondary bg-opacity-25 text-white" placeholder="Email address" required>
+                            <button class="btn btn-primary bg-primary border-0 px-4" type="submit"><i class="bi bi-send"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="md-footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-0">&copy; 2026 MealDesk. All rights reserved.</p>
+                <div class="d-flex gap-3 mt-3 mt-md-0">
+                    <a href="#" class="text-decoration-none">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+
+
+

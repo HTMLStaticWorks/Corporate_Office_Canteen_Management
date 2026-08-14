@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk - Transaction History">
+    <title>Transactions | MealDesk Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
+    <link rel="stylesheet" href="../assets/css/rtl.css">
+
+    <style>
+        body { background-color: var(--md-bg-base); }
+        .md-dashboard-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background-color: var(--md-surface); border-right: 1px solid var(--md-border); z-index: 1040; transition: transform var(--md-transition-base); overflow-y: auto; display: flex; flex-direction: column; }
+        .md-dashboard-main { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+        .md-dashboard-topbar { height: 70px; background-color: var(--md-surface); border-bottom: 1px solid var(--md-border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 1030; }
+        .md-sidebar-brand { height: 70px; display: flex; align-items: center; padding: 0 1.5rem; font-family: var(--md-font-display); font-size: 1.25rem; font-weight: 800; color: var(--md-primary); border-bottom: 1px solid var(--md-border); }
+        .md-sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--md-text-muted); text-decoration: none; font-weight: 500; transition: all var(--md-transition-fast); border-left: 3px solid transparent; }
+        .md-sidebar-link:hover, .md-sidebar-link.active { color: var(--md-primary); background: var(--md-primary-light); border-left-color: var(--md-primary); }
+        .dashboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1035; display: none; }
+        .dashboard-overlay.active { display: block; }
+
+        @media (max-width: 1024px) {
+            .md-dashboard-sidebar { transform: translateX(-100%); }
+            .md-dashboard-sidebar.active { transform: translateX(0); }
+            .md-dashboard-main { margin-left: 0; }
+        }
+        
+        .transaction-table { width: 100%; background: var(--md-surface); border-radius: 1rem; overflow: hidden; box-shadow: var(--md-shadow-sm); border: 1px solid var(--md-border); }
+        .transaction-table th { background: var(--md-base); padding: 1rem 1.5rem; font-weight: 600; color: var(--md-text-muted); border-bottom: 1px solid var(--md-border); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .transaction-table td { padding: 1.25rem 1.5rem; vertical-align: middle; border-bottom: 1px solid var(--md-border); color: var(--md-text-main); }
+        .transaction-table tr:last-child td { border-bottom: none; }
+        .transaction-table tbody tr { transition: background var(--md-transition-fast); }
+        .transaction-table tbody tr:hover { background: var(--md-base); }
+        
+        .tx-icon { width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .tx-in { background: rgba(16,185,129,0.1); color: #10b981; }
+        .tx-out { background: rgba(239,68,68,0.1); color: #ef4444; }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+</head>
+<body>
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="md-dashboard-sidebar">
+        <a href="../index.html" class="md-sidebar-brand text-decoration-none"><i class="bi bi-box-seam me-2 text-accent"></i> MealDesk</a>
+        <div class="py-3 flex-grow-1">
+            <span class="text-uppercase text-muted small fw-bold px-4 mb-2 d-block opacity-75">Overview</span>
+            <a href="index.html" class="md-sidebar-link"><i class="bi bi-grid"></i> Dashboard</a>
+            <a href="menu.html" class="md-sidebar-link"><i class="bi bi-cup-hot"></i> Today's Menu</a>
+            <a href="preorder.html" class="md-sidebar-link"><i class="bi bi-bag-plus"></i> Pre-Order</a>
+            <a href="orders.html" class="md-sidebar-link"><i class="bi bi-receipt"></i> My Orders</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Finance</span>
+            <a href="wallet.html" class="md-sidebar-link"><i class="bi bi-wallet2"></i> Wallet</a>
+            <a href="transactions.html" class="md-sidebar-link active"><i class="bi bi-arrow-left-right"></i> Transactions</a>
+            <span class="text-uppercase text-muted small fw-bold px-4 mt-4 mb-2 d-block opacity-75">Account</span>
+            <a href="profile.html" class="md-sidebar-link"><i class="bi bi-person"></i> Profile</a>
+            <a href="notifications.html" class="md-sidebar-link"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html" class="md-sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+        </div>
+    </aside>
+
+    <main class="md-dashboard-main">
+        <header class="md-dashboard-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-muted p-0 d-lg-none" id="dashboardSidebarToggle"><i class="bi bi-list fs-3"></i></button>
+                <h5 class="mb-0 fw-bold d-none d-md-block">Transaction History</h5>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-none d-sm-flex align-items-center gap-2 bg-primary-light text-primary px-3 py-1 rounded-pill fw-bold"><i class="bi bi-wallet2"></i> ₹ 1,250</div>
+                <button class="md-icon-btn theme-toggle-btn border-0"><i class="bi bi-moon"></i></button>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="rounded-circle" width="40" height="40">
+            </div>
+        </header>
+
+        <div class="p-4 flex-grow-1">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div class="d-flex gap-2">
+                    <select class="form-select bg-surface shadow-sm border-border" style="width: auto;">
+                        <option selected>All Time</option>
+                        <option>This Month</option>
+                        <option>Last Month</option>
+                        <option>This Year</option>
+                    </select>
+                    <select class="form-select bg-surface shadow-sm border-border" style="width: auto;">
+                        <option selected>All Types</option>
+                        <option>Top Up</option>
+                        <option>Meal Purchase</option>
+                        <option>Refund</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline-primary bg-surface shadow-sm"><i class="bi bi-download me-2"></i> Export CSV</button>
+            </div>
+
+            <div class="table-responsive pb-3">
+                <table class="transaction-table reveal-slide-up">
+                    <thead>
+                        <tr>
+                            <th>Transaction</th>
+                            <th>Date & Time</th>
+                            <th>Reference ID</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="tx-icon tx-out"><i class="bi bi-cup-hot"></i></div>
+                                    <span class="fw-bold">Pre-Order (Lunch)</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">14 Aug 2026, 10:15 AM</td>
+                            <td class="text-muted">#TXN-943021</td>
+                            <td class="fw-bold text-danger">-₹231.00</td>
+                            <td><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1">Completed</span></td>
+                            <td class="text-end"><button class="btn btn-sm btn-light"><i class="bi bi-receipt"></i> Receipt</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="tx-icon tx-in"><i class="bi bi-credit-card"></i></div>
+                                    <span class="fw-bold">Wallet Top-up</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">13 Aug 2026, 14:00 PM</td>
+                            <td class="text-muted">#TXN-942850</td>
+                            <td class="fw-bold text-success">+₹1,000.00</td>
+                            <td><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1">Completed</span></td>
+                            <td class="text-end"><button class="btn btn-sm btn-light"><i class="bi bi-receipt"></i> Receipt</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="tx-icon tx-out"><i class="bi bi-bag"></i></div>
+                                    <span class="fw-bold">Snack Purchase</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">12 Aug 2026, 15:30 PM</td>
+                            <td class="text-muted">#TXN-941102</td>
+                            <td class="fw-bold text-danger">-₹150.00</td>
+                            <td><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1">Completed</span></td>
+                            <td class="text-end"><button class="btn btn-sm btn-light"><i class="bi bi-receipt"></i> Receipt</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="tx-icon tx-in"><i class="bi bi-building"></i></div>
+                                    <span class="fw-bold">Corporate Subsidy</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">01 Aug 2026, 00:00 AM</td>
+                            <td class="text-muted">#TXN-930001</td>
+                            <td class="fw-bold text-success">+₹2,000.00</td>
+                            <td><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1">Completed</span></td>
+                            <td class="text-end"><button class="btn btn-sm btn-light"><i class="bi bi-receipt"></i> Receipt</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="tx-icon tx-out"><i class="bi bi-cup-hot"></i></div>
+                                    <span class="fw-bold">Pre-Order (Breakfast)</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">30 Jul 2026, 08:15 AM</td>
+                            <td class="text-muted">#TXN-928441</td>
+                            <td class="fw-bold text-danger">-₹180.00</td>
+                            <td><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1">Completed</span></td>
+                            <td class="text-end"><button class="btn btn-sm btn-light"><i class="bi bi-receipt"></i> Receipt</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Placeholder -->
+            <nav class="d-flex justify-content-center mt-4">
+                <ul class="pagination">
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>
+
+

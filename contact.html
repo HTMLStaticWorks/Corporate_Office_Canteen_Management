@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact MealDesk - Get in touch with our enterprise team">
+    <title>Contact Us | MealDesk</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        .contact-hero { padding: 160px 0 100px; background: var(--md-surface); border-bottom: 1px solid var(--md-border); }
+        
+        .contact-info-card {
+            background: var(--md-base); padding: 1.75rem 1.5rem; border-radius: 1rem;
+            text-align: center; border: 1px solid var(--md-border); height: 100%; transition: all var(--md-transition-base);
+        }
+        .contact-info-card:hover { border-color: var(--md-primary); box-shadow: var(--md-shadow-sm); transform: translateY(-5px); }
+        .contact-icon { width: 56px; height: 56px; background: var(--md-primary-light); color: var(--md-primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+        
+        .contact-form-wrap { background: var(--md-surface); padding: 2rem; border-radius: 1.25rem; box-shadow: var(--md-shadow-lg); border: 1px solid var(--md-border); }
+        .form-control, .form-select { border-color: var(--md-border); padding: 0.65rem 1rem; border-radius: 0.5rem; background-color: var(--md-bg-base); }
+        .form-control:focus, .form-select:focus { border-color: var(--md-primary); box-shadow: 0 0 0 0.25rem rgba(4,106,56,0.1); }
+        
+        .map-container { width: 100%; height: 450px; border-radius: 1.5rem; overflow: hidden; background: var(--md-base); }
+
+        /* Social Icons with hover */
+        .contact-social-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--md-surface); border: 1px solid var(--md-border);
+            color: var(--md-text-muted); font-size: 1.25rem;
+            text-decoration: none; transition: all 0.3s ease;
+        }
+        .contact-social-link:hover { transform: translateY(-4px); border-color: transparent; color: #fff; }
+        .contact-social-link.fb:hover  { background: #1877f2; }
+        .contact-social-link.tw:hover  { background: #000; }
+        .contact-social-link.li:hover  { background: #0a66c2; }
+        .contact-social-link.ig:hover  { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+        .contact-social-link.yt:hover  { background: #ff0000; }
+        .contact-social-link.wa:hover  { background: #25d366; }
+
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="md-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="navbar-brand">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="d-none d-xl-flex align-items-center gap-3">
+                <a href="index.html" class="md-nav-link">Home</a>
+                <a href="home-2.html" class="md-nav-link">Home 2</a>
+                <a href="about.html" class="md-nav-link">About</a>
+                <a href="services.html" class="md-nav-link">Services</a>
+                <a href="menu.html" class="md-nav-link">Menu</a>
+                <a href="blog.html" class="md-nav-link">Blog</a>
+                <a href="contact.html" class="md-nav-link active">Contact</a>
+                <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+            </nav>
+            
+            <div class="d-flex align-items-center gap-2">
+                <!-- Desktop Only Toggles & CTA -->
+                <div class="d-none d-xl-flex align-items-center gap-2">
+                    <button class="md-icon-btn theme-toggle-btn" aria-label="Toggle Theme">
+                        <i class="bi bi-moon"></i>
+                    </button>
+                    <button class="md-icon-btn rtl-toggle-btn" aria-label="Toggle RTL">
+                        <i class="bi bi-translate"></i>
+                    </button>
+                    <a href="signup.html" class="btn-md-primary text-decoration-none ms-3">Sign Up</a>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="md-icon-btn d-xl-none ms-2" id="mobileMenuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="md-sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="md-mobile-sidebar d-xl-none" id="mobileSidebar">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="index.html" class="navbar-brand fs-4 fw-bold text-primary">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            <button class="md-icon-btn border-0" id="sidebarClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <nav class="d-flex flex-column gap-2 mb-4">
+            <a href="index.html" class="md-nav-link">Home</a>
+            <a href="home-2.html" class="md-nav-link">Home 2</a>
+            <a href="about.html" class="md-nav-link">About</a>
+            <a href="services.html" class="md-nav-link">Services</a>
+            <a href="menu.html" class="md-nav-link">Menu</a>
+            <a href="blog.html" class="md-nav-link">Blog</a>
+            <a href="contact.html" class="md-nav-link active">Contact</a>
+            <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+        </nav>
+        <hr class="text-muted">
+        <div class="d-flex justify-content-center gap-3 mt-4 mb-2">
+            <button class="md-icon-btn theme-toggle-btn bg-surface border" aria-label="Toggle Theme">
+                <i class="bi bi-moon"></i>
+            </button>
+            <button class="md-icon-btn rtl-toggle-btn bg-surface border" aria-label="Toggle RTL">
+                <i class="bi bi-translate"></i>
+            </button>
+        </div>
+        <div class="d-flex flex-column gap-3 mt-4">
+            <a href="signup.html" class="btn-md-primary text-center text-decoration-none text-white">Sign Up</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Section 1: Contact Hero -->
+        <section class="contact-hero text-center">
+            <div class="container reveal-fade">
+                <h1 class="display-3 fw-bold mb-4">Get in Touch</h1>
+                <p class="lead text-muted max-w-700 mx-auto">Whether you're looking to upgrade your corporate canteen or need support with your existing account, we're here to help.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Contact Cards -->
+        <section class="section-padding bg-base" style="margin-top: -60px; padding-top: 0;">
+            <div class="container position-relative z-index-1">
+                <div class="row g-4 stagger-container justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+                            <h4 class="fw-bold mb-3">Email Us</h4>
+                            <p class="text-muted mb-1">Support: support@mealdesk.com</p>
+                            <p class="text-muted mb-0">Sales: enterprise@mealdesk.com</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+                            <h4 class="fw-bold mb-3">Call Us</h4>
+                            <p class="text-muted mb-1">Mon-Fri from 8am to 6pm.</p>
+                            <p class="text-muted fw-bold mb-0">+1 (800) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+                            <h4 class="fw-bold mb-3">Visit Us</h4>
+                            <p class="text-muted mb-1">120 Corporate Boulevard, Suite 400</p>
+                            <p class="text-muted mb-0">San Francisco, CA 94105</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Icons Row -->
+            <div class="text-center mt-5 reveal-fade">
+                <h5 class="fw-bold mb-4">Connect With Us</h5>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="#" class="contact-social-link fb" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="contact-social-link tw" title="Twitter / X"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="contact-social-link li" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="contact-social-link ig" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="contact-social-link yt" title="YouTube"><i class="bi bi-youtube"></i></a>
+                    <a href="#" class="contact-social-link wa" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Contact Form -->
+        <section class="section-padding bg-surface">
+            <div class="container mx-auto reveal-slide-up" style="max-width: 680px;">
+                <div class="contact-form-wrap">
+                    <div class="text-center mb-5">
+                        <h2 class="display-6 fw-bold">Send us a message</h2>
+                        <p class="text-muted">Fill out the form below and our team will get back to you within 24 hours.</p>
+                    </div>
+                    
+                    <form class="row g-4 needs-validation" novalidate id="contactForm">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">First Name *</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Last Name *</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Work Email *</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Phone Number</label>
+                            <input type="tel" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small">Inquiry Type *</label>
+                            <select class="form-select" required>
+                                <option value="" selected disabled>Select a topic...</option>
+                                <option value="1">Enterprise Canteen Setup</option>
+                                <option value="2">Employee Account Support</option>
+                                <option value="3">Catering Partner Application</option>
+                                <option value="4">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small">Message *</label>
+                            <textarea class="form-control" rows="5" required placeholder="Tell us how we can help..."></textarea>
+                        </div>
+                        <div class="col-12 text-center mt-5">
+                            <button class="btn btn-primary bg-primary border-0 rounded-pill px-5 py-3 fw-bold w-100" type="submit">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Office Map -->
+        <section class="section-padding bg-base">
+            <div class="container reveal-fade">
+                <h3 class="fw-bold mb-4 text-center">Our Headquarters</h3>
+                <div class="map-container border">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.096645398797!2d-122.39785862418576!3d37.78775981139433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085806354b679b3%3A0x6335165c71d3a436!2sSan%20Francisco%2C%20CA%2094105!5e0!3m2!1sen!2sus!4v1692803233894!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Enterprise CTA -->
+        <section class="section-padding bg-surface">
+            <div class="container text-center reveal-scale">
+                <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill mb-3">Enterprise Only</span>
+                <h2 class="display-5 fw-bold mb-3">Ready to transform your canteen?</h2>
+                <p class="lead text-muted mb-4 max-w-700 mx-auto">Schedule a personalized 30-minute demo to see how MealDesk can reduce food waste and improve employee satisfaction at your campus.</p>
+                <a href="#" class="btn-md-outline px-5 py-3 text-decoration-none"><i class="bi bi-calendar-event me-2"></i> Book a Demo</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="md-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="index.html" class="footer-brand text-decoration-none">
+                        <i class="bi bi-box-seam"></i> MealDesk
+                    </a>
+                    <p class="text-muted pe-lg-4">Premium corporate canteen management platform streamlining food ordering, payments, and pickup for modern workplaces.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none">Home</a></li>
+                        <li><a href="about.html" class="text-decoration-none">About Us</a></li>
+                        <li><a href="services.html" class="text-decoration-none">Services</a></li>
+                        <li><a href="how-it-works.html" class="text-decoration-none">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="menu.html" class="text-decoration-none">Today's Menu</a></li>
+                        <li><a href="blog.html" class="text-decoration-none">Blog</a></li>
+                        <li><a href="faq.html" class="text-decoration-none">FAQ</a></li>
+                        <li><a href="contact.html" class="text-decoration-none">Contact</a><a href="dashboard/index.html" class="md-nav-link">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5>Subscribe to Newsletter</h5>
+                    <p class="text-muted small">Get updates on new menu items and healthy eating tips.</p>
+                    <form class="mt-3 needs-validation" novalidate>
+                        <div class="input-group">
+                            <input type="email" class="form-control border-0 bg-secondary bg-opacity-25 text-white" placeholder="Email address" required>
+                            <button class="btn btn-primary bg-primary border-0 px-4" type="submit"><i class="bi bi-send"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="md-footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-0">&copy; 2026 MealDesk. All rights reserved.</p>
+                <div class="d-flex gap-3 mt-3 mt-md-0">
+                    <a href="#" class="text-decoration-none">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (this.checkValidity()) {
+                alert('Thank you! Your message has been sent.');
+                this.reset();
+            } else {
+                this.classList.add('was-validated');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

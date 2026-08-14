@@ -1,0 +1,54 @@
+/* ==========================================================================
+   MealDesk - RTL Styles
+   ========================================================================== */
+
+[dir="rtl"] {
+  /* Logical properties handle most of the layout, but some specific overrides might be needed */
+  text-align: right;
+}
+
+[dir="rtl"] .ms-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+[dir="rtl"] .me-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+[dir="rtl"] .me-1, [dir="rtl"] .me-2, [dir="rtl"] .me-3, [dir="rtl"] .me-4, [dir="rtl"] .me-5 {
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .ms-1, [dir="rtl"] .ms-2, [dir="rtl"] .ms-3, [dir="rtl"] .ms-4, [dir="rtl"] .ms-5 {
+  margin-left: 0 !important;
+}
+
+/* Fix Bootstrap margins in RTL */
+[dir="rtl"] .pe-1, [dir="rtl"] .pe-2, [dir="rtl"] .pe-3 { padding-right: 0 !important; }
+[dir="rtl"] .ps-1, [dir="rtl"] .ps-2, [dir="rtl"] .ps-3 { padding-left: 0 !important; }
+
+/* Dashboard Sidebar RTL */
+[dir="rtl"] .md-sidebar {
+  border-right: none;
+  border-left: 1px solid var(--md-border);
+}
+
+/* Fix Icon spacing */
+[dir="rtl"] .btn i {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+[dir="rtl"] .md-header .navbar-brand i {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Animations RTL specific if needed */
+[dir="rtl"] .reveal-slide-left {
+  transform: translateX(50px);
+}
+[dir="rtl"] .reveal-slide-right {
+  transform: translateX(-50px);
+}

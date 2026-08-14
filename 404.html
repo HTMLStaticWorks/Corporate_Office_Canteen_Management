@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page Not Found - MealDesk">
+    <title>404 - Page Not Found | MealDesk</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        body {
+            background-color: var(--md-bg-base);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .error-card {
+            background: var(--md-surface);
+            border-radius: 2rem;
+            box-shadow: var(--md-shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            padding: 4rem 3rem;
+            border: 1px solid var(--md-border);
+            text-align: center;
+        }
+        .error-code {
+            font-family: var(--md-font-display);
+            font-size: 8rem;
+            font-weight: 800;
+            color: var(--md-primary-light);
+            line-height: 1;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .error-code::after {
+            content: '404';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            color: var(--md-primary);
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+            z-index: 1;
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+<body>
+    <button class="md-icon-btn theme-toggle-btn position-absolute top-0 end-0 m-4 bg-surface shadow-sm"><i class="bi bi-moon"></i></button>
+
+    <div class="error-card reveal-scale">
+        <div class="error-code">404</div>
+        <h2 class="display-6 fw-bold mb-3">Oops! Page not found.</h2>
+        <p class="text-muted mb-5">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        
+        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+            <a href="index.html" class="btn-md-primary text-decoration-none px-4"><i class="bi bi-house me-2"></i> Go to Homepage</a>
+            <button onclick="history.back()" class="btn-md-outline px-4"><i class="bi bi-arrow-left me-2"></i> Go Back</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

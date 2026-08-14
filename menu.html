@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk Menu - Corporate Dining Solutions">
+    <title>Menu | MealDesk</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        .menu-hero {
+            padding: 180px 0 100px;
+            background-image: url('https://images.unsplash.com/photo-1543353071-873f17a7a088?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            color: #fff;
+        }
+
+        .menu-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .menu-search-card {
+            background: var(--md-surface);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--md-shadow-lg);
+            position: relative;
+            z-index: 10;
+            margin-top: 0;
+        }
+
+        .food-card {
+            border-radius: 1rem;
+            overflow: hidden;
+            background: var(--md-surface);
+            box-shadow: var(--md-shadow-sm);
+            transition: all var(--md-transition-base);
+            border: 1px solid var(--md-border);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--md-shadow-lg);
+        }
+
+        .food-img-wrapper {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .food-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .food-card:hover .food-img-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .veg-indicator {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--md-success);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+
+        .veg-indicator::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--md-success);
+            border-radius: 50%;
+        }
+
+        .non-veg-indicator {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--md-danger);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+
+        .non-veg-indicator::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--md-danger);
+            border-radius: 50%;
+        }
+
+        .specials-section {
+            background-color: var(--md-primary-light);
+            border-radius: 2rem;
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+
+<body>
+    <!-- Header -->
+    <!-- Header Navigation -->
+    <header class="md-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="navbar-brand">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="d-none d-xl-flex align-items-center gap-3">
+                <a href="index.html" class="md-nav-link">Home</a>
+                <a href="home-2.html" class="md-nav-link">Home 2</a>
+                <a href="about.html" class="md-nav-link">About</a>
+                <a href="services.html" class="md-nav-link">Services</a>
+                <a href="menu.html" class="md-nav-link active">Menu</a>
+                <a href="blog.html" class="md-nav-link">Blog</a>
+                <a href="contact.html" class="md-nav-link">Contact</a>
+                <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+            </nav>
+
+            <div class="d-flex align-items-center gap-2">
+                <!-- Desktop Only Toggles & CTA -->
+                <div class="d-none d-xl-flex align-items-center gap-2">
+                    <button class="md-icon-btn theme-toggle-btn" aria-label="Toggle Theme">
+                        <i class="bi bi-moon"></i>
+                    </button>
+                    <button class="md-icon-btn rtl-toggle-btn" aria-label="Toggle RTL">
+                        <i class="bi bi-translate"></i>
+                    </button>
+                    <a href="signup.html" class="btn-md-primary text-decoration-none ms-3">Sign Up</a>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="md-icon-btn d-xl-none ms-2" id="mobileMenuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="md-sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="md-mobile-sidebar d-xl-none" id="mobileSidebar">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="index.html" class="navbar-brand fs-4 fw-bold text-primary">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            <button class="md-icon-btn border-0" id="sidebarClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <nav class="d-flex flex-column gap-2 mb-4">
+            <a href="index.html" class="md-nav-link">Home</a>
+            <a href="home-2.html" class="md-nav-link">Home 2</a>
+            <a href="about.html" class="md-nav-link">About</a>
+            <a href="services.html" class="md-nav-link">Services</a>
+            <a href="menu.html" class="md-nav-link active">Menu</a>
+            <a href="blog.html" class="md-nav-link">Blog</a>
+            <a href="contact.html" class="md-nav-link">Contact</a>
+            <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+        </nav>
+        <hr class="text-muted">
+        <div class="d-flex justify-content-center gap-3 mt-4 mb-2">
+            <button class="md-icon-btn theme-toggle-btn bg-surface border" aria-label="Toggle Theme">
+                <i class="bi bi-moon"></i>
+            </button>
+            <button class="md-icon-btn rtl-toggle-btn bg-surface border" aria-label="Toggle RTL">
+                <i class="bi bi-translate"></i>
+            </button>
+        </div>
+        <div class="d-flex flex-column gap-3 mt-4">
+            <a href="signup.html" class="btn-md-primary text-center text-decoration-none text-white">Sign Up</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Section 1: Menu Hero -->
+        <section class="menu-hero text-center">
+            <div class="container position-relative z-index-1 reveal-fade">
+                <h1 class="display-3 fw-bold mb-3">Fresh Daily Menu</h1>
+                <p class="lead opacity-75 max-w-700 mx-auto">Browse today's curated selections prepared fresh in our
+                    kitchen. Pre-order now to skip the queue during lunch hour.</p>
+            </div>
+        </section>
+
+        <!-- Search & Filter Card -->
+        <div class="container py-5">
+            <div class="menu-search-card reveal-slide-up">
+                <form class="row g-3 align-items-center">
+                    <div class="col-lg-5">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0"><i
+                                    class="bi bi-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0 shadow-none"
+                                placeholder="Search for meals, ingredients...">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <select class="form-select shadow-none">
+                            <option selected>All Categories</option>
+                            <option value="1">Breakfast</option>
+                            <option value="2">Lunch</option>
+                            <option value="3">Snacks</option>
+                            <option value="4">Beverages</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <select class="form-select shadow-none">
+                            <option selected>Dietary</option>
+                            <option value="veg">Vegetarian</option>
+                            <option value="non-veg">Non-Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn-md-primary w-100">Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section 2: Today's Featured Meals -->
+        <section class="section-padding pt-0 bg-base">
+            <div class="container">
+                <h3 class="fw-bold mb-4 d-flex align-items-center justify-content-center gap-2 reveal-fade text-center">
+                    <i class="bi bi-star-fill text-warning"></i> Today's Featured
+                </h3>
+                <div class="row g-4 stagger-container justify-content-center">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper">
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-3 z-index-1">Selling
+                                    Fast</span>
+                                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    alt="Superfood Salad">
+                            </div>
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="mb-0 fw-bold">Superfood Salad</h5>
+                                    <span class="veg-indicator" title="Vegetarian"></span>
+                                </div>
+                                <p class="text-muted small mb-3 flex-grow-1">Kale, quinoa, roasted sweet potatoes,
+                                    avocado, and lemon tahini dressing.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-3 border-top pt-3">
+                                    <span class="fw-bold fs-5 text-accent">₹220</span>
+                                    <span class="small text-muted"><i class="bi bi-fire text-warning"></i> 320
+                                        kcal</span>
+                                </div>
+                                <a href="dashboard/preorder.html" class="btn btn-outline-primary w-100 rounded-pill"><i
+                                        class="bi bi-plus-lg me-1"></i> Pre-Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper">
+                                <img src="https://images.pexels.com/photos/16845479/pexels-photo-16845479.jpeg"
+                                    alt="Grilled Salmon">
+                            </div>
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="mb-0 fw-bold">Grilled Salmon Plate</h5>
+                                    <span class="non-veg-indicator" title="Non-Vegetarian"></span>
+                                </div>
+                                <p class="text-muted small mb-3 flex-grow-1">Wild-caught salmon, asparagus, garlic
+                                    mashed potatoes, dill sauce.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-3 border-top pt-3">
+                                    <span class="fw-bold fs-5 text-accent">₹450</span>
+                                    <span class="small text-muted"><i class="bi bi-fire text-warning"></i> 550
+                                        kcal</span>
+                                </div>
+                                <a href="dashboard/preorder.html" class="btn btn-outline-primary w-100 rounded-pill"><i
+                                        class="bi bi-plus-lg me-1"></i> Pre-Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    alt="Spicy Tuna Roll">
+                            </div>
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="mb-0 fw-bold">Spicy Tuna Roll (8pcs)</h5>
+                                    <span class="non-veg-indicator" title="Non-Vegetarian"></span>
+                                </div>
+                                <p class="text-muted small mb-3 flex-grow-1">Fresh tuna, spicy mayo, cucumber, sesame
+                                    seeds, soy sauce packet.</p>
+                                <div class="d-flex justify-content-between align-items-center mb-3 border-top pt-3">
+                                    <span class="fw-bold fs-5 text-accent">₹320</span>
+                                    <span class="small text-muted"><i class="bi bi-fire text-warning"></i> 410
+                                        kcal</span>
+                                </div>
+                                <a href="dashboard/preorder.html" class="btn btn-outline-primary w-100 rounded-pill"><i
+                                        class="bi bi-plus-lg me-1"></i> Pre-Order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Breakfast & Lunch Categories -->
+        <section class="section-padding bg-surface">
+            <div class="container">
+                <h3 class="fw-bold mb-4 reveal-fade text-center">Regular Lunch Meals</h3>
+                <div class="row g-4 mb-5 stagger-container justify-content-center">
+                    <!-- Additional Cards -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper"><img
+                                    src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    alt="Margherita Pizza"></div>
+                            <div class="p-4">
+                                <h6 class="fw-bold">Margherita Pizza (Personal)</h6><span
+                                    class="fw-bold text-accent">₹250</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper"><img
+                                    src="https://images.pexels.com/photos/15362507/pexels-photo-15362507.jpeg"
+                                    alt="Club Sandwich"></div>
+                            <div class="p-4">
+                                <h6 class="fw-bold">Classic Club Sandwich</h6><span
+                                    class="fw-bold text-accent">₹180</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper"><img
+                                    src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    alt="Chicken Wrap"></div>
+                            <div class="p-4">
+                                <h6 class="fw-bold">Grilled Chicken Wrap</h6><span
+                                    class="fw-bold text-accent">₹200</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="food-card">
+                            <div class="food-img-wrapper"><img
+                                    src="https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    alt="Pasta"></div>
+                            <div class="p-4">
+                                <h6 class="fw-bold">Penne Arrabbiata</h6><span class="fw-bold text-accent">₹260</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Healthy / Chef Specials -->
+        <section class="section-padding">
+            <div class="container specials-section p-5 reveal-scale">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <span class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3 shadow-sm">Chef's
+                            Special</span>
+                        <h2 class="display-5 fw-bold text-primary mb-4">Mediterranean Bowl</h2>
+                        <p class="lead text-muted mb-4">A healthy and fulfilling blend of falafel, hummus, tabbouleh,
+                            mixed greens, and warm pita bread. High in protein, perfectly balanced.</p>
+                        <ul class="list-unstyled d-flex gap-4 mb-4">
+                            <li><i class="bi bi-check2-circle text-success me-1"></i> 100% Vegan</li>
+                            <li><i class="bi bi-check2-circle text-success me-1"></i> Gluten-Free Option</li>
+                        </ul>
+                        <div class="d-flex align-items-center gap-4">
+                            <span class="display-6 fw-bold text-accent">₹290</span>
+                            <a href="dashboard/preorder.html" class="btn-md-primary text-decoration-none">Pre-Order
+                                Now</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-4 mt-lg-0 text-center">
+                        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Mediterranean Bowl"
+                            class="img-fluid rounded-circle shadow-lg border border-5 border-white"
+                            style="width: 400px; height: 400px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Pre-Order CTA -->
+        <section class="section-padding bg-surface text-center">
+            <div class="container reveal-fade">
+                <h2 class="display-6 fw-bold mb-3">Skip the Queue Today</h2>
+                <p class="text-muted mb-4 max-w-700 mx-auto">Don't waste your lunch break standing in line. Order now
+                    from your desk and pick it up exactly when you want.</p>
+                <a href="login.html" class="btn-md-accent px-5 py-3 text-decoration-none">Login to Order</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="md-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="index.html" class="footer-brand text-decoration-none">
+                        <i class="bi bi-box-seam"></i> MealDesk
+                    </a>
+                    <p class="text-muted pe-lg-4">Premium corporate canteen management platform streamlining food
+                        ordering, payments, and pickup for modern workplaces.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none">Home</a></li>
+                        <li><a href="about.html" class="text-decoration-none">About Us</a></li>
+                        <li><a href="services.html" class="text-decoration-none">Services</a></li>
+                        <li><a href="how-it-works.html" class="text-decoration-none">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="menu.html" class="text-decoration-none">Today's Menu</a></li>
+                        <li><a href="blog.html" class="text-decoration-none">Blog</a></li>
+                        <li><a href="faq.html" class="text-decoration-none">FAQ</a></li>
+                        <li><a href="contact.html" class="text-decoration-none">Contact</a><a href="dashboard/index.html" class="md-nav-link">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5>Subscribe to Newsletter</h5>
+                    <p class="text-muted small">Get updates on new menu items and healthy eating tips.</p>
+                    <form class="mt-3 needs-validation" novalidate>
+                        <div class="input-group">
+                            <input type="email" class="form-control border-0 bg-secondary bg-opacity-25 text-white"
+                                placeholder="Email address" required>
+                            <button class="btn btn-primary bg-primary border-0 px-4" type="submit"><i
+                                    class="bi bi-send"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="md-footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-0">&copy; 2026 MealDesk. All rights reserved.</p>
+                <div class="d-flex gap-3 mt-3 mt-md-0">
+                    <a href="#" class="text-decoration-none">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
+
+
+
+

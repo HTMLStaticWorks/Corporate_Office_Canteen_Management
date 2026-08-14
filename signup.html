@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for MealDesk">
+    <title>Sign Up | MealDesk</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        body {
+            background-color: var(--md-bg-base);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .auth-card {
+            background: var(--md-surface);
+            border-radius: 1.5rem;
+            box-shadow: var(--md-shadow-lg);
+            width: 100%;
+            max-width: 550px;
+            padding: 3rem 2.5rem;
+            border: 1px solid var(--md-border);
+        }
+        .auth-brand {
+            font-family: var(--md-font-display);
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--md-primary);
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; text-decoration: none;
+            margin-bottom: 2rem;
+        }
+        .auth-brand i { color: var(--md-accent); }
+        
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--md-border);
+            background-color: transparent;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 4px var(--md-primary-light);
+            border-color: var(--md-primary);
+        }
+        
+        .btn-social {
+            border: 1px solid var(--md-border);
+            background: var(--md-surface);
+            color: var(--md-text-main);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.25rem;
+            transition: all var(--md-transition-fast);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-social:hover { transform: translateY(-4px); box-shadow: var(--md-shadow-sm); border-color: transparent; color: #fff; }
+        .btn-social.google:hover { background: #ea4335; }
+        .btn-social.facebook:hover { background: #1877f2; }
+        .btn-social.apple:hover { background: #000; }
+        .divider {
+            display: flex; align-items: center; text-align: center; margin: 1.5rem 0;
+        }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--md-border); }
+        .divider span { padding: 0 1rem; color: var(--md-text-muted); font-size: 0.875rem; }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+<body>
+
+    <!-- Desktop Toggles (Fixed top right) -->
+    <div class="position-absolute top-0 end-0 m-4 d-none d-lg-flex gap-2 z-index-1">
+        <button class="md-icon-btn theme-toggle-btn bg-surface shadow-sm border" aria-label="Toggle Theme"><i class="bi bi-moon"></i></button>
+        <button class="md-icon-btn rtl-toggle-btn bg-surface shadow-sm border" aria-label="Toggle RTL"><i class="bi bi-translate"></i></button>
+    </div>
+
+    <div style="width: 100%; max-width: 550px;">
+        <!-- Mobile & Tab Toggles (Aligned outside right corner of card) -->
+        <div class="d-flex d-lg-none justify-content-end gap-2 mb-3">
+            <button class="md-icon-btn theme-toggle-btn bg-surface shadow-sm border" aria-label="Toggle Theme"><i class="bi bi-moon"></i></button>
+            <button class="md-icon-btn rtl-toggle-btn bg-surface shadow-sm border" aria-label="Toggle RTL"><i class="bi bi-translate"></i></button>
+        </div>
+
+        <div class="auth-card reveal-scale">
+        <a href="index.html" class="auth-brand"><i class="bi bi-box-seam"></i> MealDesk</a>
+        <div class="text-center mb-4">
+            <h4 class="fw-bold mb-1">Create an Account</h4>
+            <p class="text-muted small">Join your corporate dining program today.</p>
+        </div>
+        
+        <form class="needs-validation" novalidate id="signupForm">
+            <div class="mb-3">
+                <label for="fullName" class="form-label small fw-bold">Full Name</label>
+                <input type="text" class="form-control" id="fullName" placeholder="John Doe" required>
+                <div class="invalid-feedback">Required.</div>
+            </div>
+            <div class="mb-3">
+                <label for="employeeId" class="form-label small fw-bold">Employee ID</label>
+                <input type="text" class="form-control" id="employeeId" placeholder="EMP-1234" required>
+                <div class="invalid-feedback">Required.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label small fw-bold">Work Email</label>
+                <input type="email" class="form-control" id="email" placeholder="name@company.com" required>
+                <div class="invalid-feedback">Valid work email required.</div>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label small fw-bold">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" placeholder="+1 234 567 8900" required>
+                <div class="invalid-feedback">Required.</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label small fw-bold">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control border-end-0" id="password" required minlength="8">
+                    <span class="input-group-text border-start-0 toggle-password" style="cursor: pointer;" data-target="password"><i class="bi bi-eye-slash text-muted"></i></span>
+                    <div class="invalid-feedback">Minimum 8 characters.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label small fw-bold">Confirm Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control border-end-0" id="confirmPassword" required>
+                    <span class="input-group-text border-start-0 toggle-password" style="cursor: pointer;" data-target="confirmPassword"><i class="bi bi-eye-slash text-muted"></i></span>
+                    <div class="invalid-feedback">Passwords must match.</div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label small text-muted" for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                    </label>
+                    <div class="invalid-feedback">You must agree before submitting.</div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill fw-bold mb-3" style="background-color: var(--md-primary); border: none;">Create Account</button>
+        </form>
+        
+        <div class="divider"><span>OR SIGN UP WITH</span></div>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <button class="btn-social google" title="Google"><i class="bi bi-google"></i></button>
+            <button class="btn-social facebook" title="Facebook"><i class="bi bi-facebook"></i></button>
+            <button class="btn-social apple" title="Apple"><i class="bi bi-apple"></i></button>
+        </div>
+        
+        <p class="text-center mt-4 mb-0 small text-muted">
+            Already have an account? <a href="login.html" class="fw-bold text-decoration-none">Log In</a>
+        </p>
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Password Visibility Toggles
+        document.querySelectorAll('.toggle-password').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                }
+            });
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const pwd = document.getElementById('password').value;
+            const confirmPwd = document.getElementById('confirmPassword').value;
+            
+            if (pwd !== confirmPwd && pwd !== '') {
+                document.getElementById('confirmPassword').setCustomValidity('Passwords must match');
+            } else {
+                document.getElementById('confirmPassword').setCustomValidity('');
+            }
+            
+            if (this.checkValidity()) {
+                e.preventDefault();
+                window.location.href = 'login.html';
+            } else {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
+

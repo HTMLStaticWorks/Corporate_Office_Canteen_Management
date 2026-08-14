@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MealDesk - Coming Soon">
+    <title>Coming Soon | MealDesk</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1543353071-873f17a7a088?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+        body::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 0;
+        }
+        .cs-card {
+            background: var(--md-surface);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 700px;
+            padding: 4rem 3rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .cs-brand { font-family: var(--md-font-display); font-size: 2rem; font-weight: 800; color: var(--md-primary); margin-bottom: 2rem; display: block; text-decoration: none; }
+        
+        .countdown { display: flex; justify-content: center; gap: 1.5rem; margin: 3rem 0; }
+        .cd-box { width: 90px; height: 90px; background: var(--md-base); border: 1px solid var(--md-border); border-radius: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .cd-number { font-family: var(--md-font-display); font-size: 2rem; font-weight: 800; color: var(--md-primary); line-height: 1; margin-bottom: 0.25rem; }
+        .cd-text { font-size: 0.75rem; color: var(--md-text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        
+        @media (max-width: 576px) {
+            .countdown { gap: 0.5rem; }
+            .cd-box { width: 70px; height: 70px; }
+            .cd-number { font-size: 1.5rem; }
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+<body data-theme="dark">
+
+    <div class="cs-card reveal-scale">
+        <a href="index.html" class="cs-brand"><i class="bi bi-box-seam"></i> MealDesk</a>
+        <h1 class="display-5 fw-bold mb-3">We are launching soon!</h1>
+        <p class="text-muted mb-0">We're currently building the next generation corporate canteen management system. Stay tuned for something amazing.</p>
+        
+        <div class="countdown">
+            <div class="cd-box">
+                <span class="cd-number">14</span>
+                <span class="cd-text">Days</span>
+            </div>
+            <div class="cd-box">
+                <span class="cd-number">08</span>
+                <span class="cd-text">Hours</span>
+            </div>
+            <div class="cd-box">
+                <span class="cd-number">45</span>
+                <span class="cd-text">Mins</span>
+            </div>
+            <div class="cd-box">
+                <span class="cd-number">12</span>
+                <span class="cd-text">Secs</span>
+            </div>
+        </div>
+        
+        <form class="max-w-500 mx-auto mt-4">
+            <div class="input-group">
+                <input type="email" class="form-control px-4" placeholder="Enter your email to be notified" required>
+                <button class="btn btn-primary bg-primary border-0 px-4 fw-bold" type="submit">Notify Me</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

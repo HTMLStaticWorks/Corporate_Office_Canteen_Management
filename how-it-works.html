@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How MealDesk Works - Ordering Journey">
+    <title>How It Works | MealDesk</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+
+    <style>
+        .hiw-hero {
+            padding: 160px 0 100px;
+            background: var(--md-surface);
+        }
+        
+        /* Timeline styling */
+        .timeline-container { position: relative; padding: 3rem 0; }
+        .timeline-container::before {
+            content: ''; position: absolute;
+            top: 0; left: 50%; width: 2px; height: 100%;
+            background: var(--md-primary-light);
+            transform: translateX(-50%);
+        }
+        .timeline-item { margin-bottom: 4rem; position: relative; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-content {
+            width: calc(50% - 3rem);
+            background: var(--md-surface);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--md-border);
+            box-shadow: var(--md-shadow-sm);
+        }
+        .timeline-item:nth-child(odd) .timeline-content { margin-left: auto; }
+        .timeline-item:nth-child(even) .timeline-content { margin-right: auto; }
+        .timeline-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px; height: 60px;
+            background: var(--md-primary); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; border: 4px solid var(--md-bg-base);
+            z-index: 10;
+        }
+        
+        .hiw-image-block { border-radius: 1.5rem; overflow: hidden; box-shadow: var(--md-shadow-lg); }
+        .hiw-image-block img { width: 100%; height: auto; object-fit: cover; }
+
+        @media (max-width: 991px) {
+            .timeline-container::before { left: 30px; }
+            .timeline-content { width: calc(100% - 80px); margin-left: 80px !important; }
+            .timeline-icon { left: 30px; }
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="md-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="navbar-brand">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="d-none d-xl-flex align-items-center gap-3">
+                <a href="index.html" class="md-nav-link">Home</a>
+                <a href="home-2.html" class="md-nav-link">Home 2</a>
+                <a href="about.html" class="md-nav-link">About</a>
+                <a href="services.html" class="md-nav-link">Services</a>
+                <a href="menu.html" class="md-nav-link">Menu</a>
+                <div class="dropdown">
+                    <a href="#" class="md-nav-link dropdown-toggle" data-bs-toggle="dropdown">More</a>
+                    <ul class="dropdown-menu border-0 shadow-sm">
+                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                        <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+                        <li><a class="dropdown-item" href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="d-flex align-items-center gap-2">
+                <!-- Desktop Only Toggles & CTA -->
+                <div class="d-none d-xl-flex align-items-center gap-2">
+                    <button class="md-icon-btn theme-toggle-btn" aria-label="Toggle Theme">
+                        <i class="bi bi-moon"></i>
+                    </button>
+                    <button class="md-icon-btn rtl-toggle-btn" aria-label="Toggle RTL">
+                        <i class="bi bi-translate"></i>
+                    </button>
+                    <a href="signup.html" class="btn-md-primary text-decoration-none ms-3">Sign Up</a>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="md-icon-btn d-xl-none ms-2" id="mobileMenuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="md-sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="md-mobile-sidebar d-xl-none" id="mobileSidebar">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="index.html" class="navbar-brand fs-4 fw-bold text-primary">
+                <i class="bi bi-box-seam"></i> MealDesk
+            </a>
+            <button class="md-icon-btn border-0" id="sidebarClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <nav class="d-flex flex-column gap-2 mb-4">
+            <a href="index.html" class="md-nav-link">Home</a>
+            <a href="home-2.html" class="md-nav-link">Home 2</a>
+            <a href="about.html" class="md-nav-link">About</a>
+            <a href="services.html" class="md-nav-link">Services</a>
+            <a href="menu.html" class="md-nav-link">Menu</a>
+            <a href="blog.html" class="md-nav-link">Blog</a>
+            <a href="contact.html" class="md-nav-link">Contact</a>
+            <a href="dashboard/index.html" class="md-nav-link">Dashboard</a>
+            <a href="faq.html" class="md-nav-link">FAQ</a>
+        </nav>
+        <hr class="text-muted">
+        <div class="d-flex justify-content-center gap-3 mt-4 mb-2">
+            <button class="md-icon-btn theme-toggle-btn bg-surface border" aria-label="Toggle Theme">
+                <i class="bi bi-moon"></i>
+            </button>
+            <button class="md-icon-btn rtl-toggle-btn bg-surface border" aria-label="Toggle RTL">
+                <i class="bi bi-translate"></i>
+            </button>
+        </div>
+        <div class="d-flex flex-column gap-3 mt-4">
+            <a href="signup.html" class="btn-md-primary text-center text-decoration-none text-white">Sign Up</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section class="hiw-hero text-center border-bottom border-border">
+            <div class="container reveal-fade">
+                <h1 class="display-3 fw-bold mb-4">How MealDesk Works</h1>
+                <p class="lead text-muted max-w-700 mx-auto">From logging in to enjoying your hot lunch, explore the seamless journey designed specifically for corporate employees.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Employee Ordering Journey -->
+        <section class="section-padding bg-base">
+            <div class="container">
+                <div class="text-center mb-5 reveal-fade">
+                    <h2 class="display-6">The Ordering Journey</h2>
+                </div>
+                
+                <div class="timeline-container stagger-container">
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="bi bi-box-arrow-in-right"></i></div>
+                        <div class="timeline-content">
+                            <h4 class="fw-bold text-primary mb-3">1. Login & Connect</h4>
+                            <p class="text-muted mb-0">Use your corporate SSO or registered work email to log securely into your personalized MealDesk employee dashboard.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="bi bi-menu-up"></i></div>
+                        <div class="timeline-content">
+                            <h4 class="fw-bold text-primary mb-3">2. Browse Daily Menus</h4>
+                            <p class="text-muted mb-0">Explore today's specific selections. Filter by vegetarian, vegan, or low-calorie options to find exactly what fits your diet.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="bi bi-cart-plus"></i></div>
+                        <div class="timeline-content">
+                            <h4 class="fw-bold text-primary mb-3">3. Pre-Order & Schedule</h4>
+                            <p class="text-muted mb-0">Select your meal, set your preferred pickup time (e.g., 1:00 PM), and add it to your order queue before the kitchen cutoff time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Wallet & Payment Journey -->
+        <section class="section-padding bg-surface">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0 reveal-slide-left">
+                        <h2 class="display-6 mb-4">Cashless Wallet System</h2>
+                        <p class="text-muted mb-4">Say goodbye to fumbling for cash or swiping cards at the counter. The MealDesk wallet simplifies everything.</p>
+                        <div class="d-flex align-items-start gap-4 mb-4">
+                            <div class="bg-primary-light text-primary p-3 rounded-circle fs-4"><i class="bi bi-cash-coin"></i></div>
+                            <div>
+                                <h5 class="fw-bold">Easy Top-Ups</h5>
+                                <p class="text-muted small">Add funds using credit card, debit card, or UPI instantly.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start gap-4 mb-4">
+                            <div class="bg-primary-light text-primary p-3 rounded-circle fs-4"><i class="bi bi-building"></i></div>
+                            <div>
+                                <h5 class="fw-bold">Corporate Subsidies</h5>
+                                <p class="text-muted small">Your company can automatically deposit monthly food allowances directly into your digital wallet.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start gap-4">
+                            <div class="bg-primary-light text-primary p-3 rounded-circle fs-4"><i class="bi bi-shield-check"></i></div>
+                            <div>
+                                <h5 class="fw-bold">1-Click Checkout</h5>
+                                <p class="text-muted small">Confirm your meal instantly. The exact amount is deducted from your balance securely.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 reveal-slide-right">
+                        <div class="hiw-image-block">
+                            <img src="https://images.unsplash.com/photo-1556742111-a301076d9d18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wallet Payment">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Pickup & Order Tracking -->
+        <section class="section-padding bg-base">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 mb-5 mb-lg-0 order-lg-2 reveal-slide-right">
+                        <h2 class="display-6 mb-4">Smart Pickup Process</h2>
+                        <p class="text-muted mb-4">Our tracking timeline keeps you informed so your food is always hot and you never waste time waiting.</p>
+                        
+                        <div class="bg-surface p-4 rounded-4 shadow-sm border mb-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                                <span class="fw-bold">Order Confirmed</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                                <span class="fw-bold">Preparing in Kitchen</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-bell-fill text-warning fs-4"></i>
+                                <span class="fw-bold">Ready for Pickup (Scan QR)</span>
+                            </div>
+                        </div>
+                        <p class="small text-muted">Receive a push notification the second your meal hits the pickup counter. Just scan your unique QR code to collect.</p>
+                    </div>
+                    <div class="col-lg-6 me-auto order-lg-1 reveal-slide-left">
+                        <div class="hiw-image-block">
+                            <img src="https://images.unsplash.com/photo-1581090122319-8fab9528eaaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Meal Pickup at Counter">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: CTA -->
+        <section class="section-padding bg-surface text-center">
+            <div class="container reveal-scale">
+                <h2 class="display-5 fw-bold mb-3">Experience it yourself.</h2>
+                <p class="text-muted mb-5 max-w-700 mx-auto">Create your account or log in now to start exploring your corporate canteen menu.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="signup.html" class="btn-md-primary px-5 py-3 text-decoration-none">Sign Up</a>
+                    <a href="login.html" class="btn-md-outline px-5 py-3 text-decoration-none">Log In</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="md-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <a href="index.html" class="footer-brand text-decoration-none">
+                        <i class="bi bi-box-seam"></i> MealDesk
+                    </a>
+                    <p class="text-muted pe-lg-4">Premium corporate canteen management platform streamlining food ordering, payments, and pickup for modern workplaces.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none">Home</a></li>
+                        <li><a href="about.html" class="text-decoration-none">About Us</a></li>
+                        <li><a href="services.html" class="text-decoration-none">Services</a></li>
+                        <li><a href="how-it-works.html" class="text-decoration-none">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 col-sm-6">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="menu.html" class="text-decoration-none">Today's Menu</a></li>
+                        <li><a href="blog.html" class="text-decoration-none">Blog</a></li>
+                        <li><a href="faq.html" class="text-decoration-none">FAQ</a></li>
+                        <li><a href="contact.html" class="text-decoration-none">Contact</a><a href="dashboard/index.html" class="md-nav-link">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5>Subscribe to Newsletter</h5>
+                    <p class="text-muted small">Get updates on new menu items and healthy eating tips.</p>
+                    <form class="mt-3 needs-validation" novalidate>
+                        <div class="input-group">
+                            <input type="email" class="form-control border-0 bg-secondary bg-opacity-25 text-white" placeholder="Email address" required>
+                            <button class="btn btn-primary bg-primary border-0 px-4" type="submit"><i class="bi bi-send"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="md-footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-0">&copy; 2026 MealDesk. All rights reserved.</p>
+                <div class="d-flex gap-3 mt-3 mt-md-0">
+                    <a href="#" class="text-decoration-none">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+
+
+

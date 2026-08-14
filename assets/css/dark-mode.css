@@ -1,0 +1,147 @@
+/* ==========================================================================
+   MealDesk - Dark Mode Styles
+   ========================================================================== */
+
+[data-theme="dark"] {
+  /* Override Base Colors for Dark Mode */
+  --md-bg-base: #121212;
+  --md-surface: #1E1E1E;
+  --md-text-main: #E0E0E0;
+  --md-text-muted: #A0A0A0;
+  --md-border: #333333;
+  
+  /* Primary & Accent tweaks for dark mode (if needed for contrast) */
+  --md-primary-light: rgba(4, 106, 56, 0.2);
+  
+  /* Shadows */
+  --md-shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+  --md-shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+  --md-shadow-lg: 0 12px 24px rgba(0,0,0,0.6);
+  --md-shadow-floating: 0 20px 40px rgba(0,0,0,0.7);
+}
+
+/* Specific Dark Mode Adjustments */
+[data-theme="dark"] .glassmorphism {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .md-header {
+  background-color: var(--md-surface);
+  border-bottom: 1px solid var(--md-border);
+}
+
+[data-theme="dark"] .md-icon-btn {
+  border-color: var(--md-border);
+  color: var(--md-text-main);
+}
+[data-theme="dark"] .md-icon-btn:hover {
+  background: var(--md-primary-light);
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+[data-theme="dark"] .md-footer {
+  background-color: #0d0d0d;
+}
+
+[data-theme="dark"] .card {
+  background-color: var(--md-surface);
+  border-color: var(--md-border);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #2D2D2D;
+  border-color: var(--md-border);
+  color: var(--md-text-main);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background-color: #2D2D2D;
+  border-color: var(--md-primary);
+  color: var(--md-text-main);
+}
+
+/* Select dropdown option text */
+[data-theme="dark"] .form-select option {
+  background-color: #2D2D2D;
+  color: var(--md-text-main);
+}
+
+/* Input group icon area */
+[data-theme="dark"] .input-group-text {
+  background-color: #2D2D2D;
+  border-color: var(--md-border);
+  color: var(--md-text-muted);
+}
+
+/* Form select arrow color in dark mode */
+[data-theme="dark"] .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23A0A0A0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* --------------------------------------------------------------------------
+   CTA Section: keep the email form light so text stays readable
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .premium-cta .form-control {
+  background-color: #f0f0f0;
+  color: #212529;
+  border-color: transparent;
+}
+[data-theme="dark"] .premium-cta .form-control::placeholder {
+  color: #6c757d;
+}
+[data-theme="dark"] .premium-cta form.bg-white {
+  background-color: #fff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Review Cards: text visibility in dark mode
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .review-card {
+  border-color: var(--md-border) !important;
+}
+[data-theme="dark"] .review-card h6 {
+  color: var(--md-text-main) !important;
+}
+[data-theme="dark"] .review-card p {
+  color: var(--md-text-main) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Editorial cards: heading and body text in dark mode
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .editorial-card h4 {
+  color: var(--md-text-main);
+}
+[data-theme="dark"] .editorial-card-body p {
+  color: var(--md-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Dropdown menu dark mode
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .dropdown-menu {
+  background-color: var(--md-surface);
+  border-color: var(--md-border);
+}
+[data-theme="dark"] .dropdown-item {
+  color: var(--md-text-main);
+}
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: var(--md-primary-light);
+  color: var(--md-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Form inputs text color in dark mode
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .form-control {
+  color: var(--md-text-main) !important;
+}
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--md-text-muted) !important;
+}
+
