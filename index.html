@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -268,6 +268,18 @@
             transform: translate(30%, -30%);
         }
 
+        .benefits-image {
+            width: 100%;
+            object-fit: cover;
+        }
+
+        @media (min-width: 992px) {
+            .benefits-image {
+                height: 100%;
+                min-height: 400px;
+            }
+        }
+
         @media (max-width: 991px) {
             .process-step::after {
                 display: none;
@@ -278,7 +290,12 @@
             }
 
             .floating-card {
-                display: none;
+                left: 10px;
+                bottom: 10px;
+            }
+
+            .floating-card-2 {
+                right: 10px;
             }
         }
     </style>
@@ -538,7 +555,7 @@
                 <div class="row align-items-stretch g-5">
                     <div class="col-lg-6 mb-5 mb-lg-0 reveal-slide-left">
                         <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            alt="Digital Payment" class="img-fluid rounded-4 shadow-lg w-100 h-100" style="object-fit: cover; min-height: 400px;">
+                            alt="Digital Payment" class="img-fluid rounded-4 shadow-lg benefits-image">
                     </div>
                     <div class="col-lg-6 d-flex flex-column justify-content-center">
                         <div class="mb-4 reveal-fade">
@@ -636,14 +653,14 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <i class="bi bi-quote display-1 text-accent opacity-50 mb-3 d-block"></i>
-                        <h3 class="fw-light lh-base mb-4">"MealDesk completely changed our lunch break. No more waiting
+                        <h3 class="fw-light lh-base mb-4 text-white">"MealDesk completely changed our lunch break. No more waiting
                             in long lines. I order at 10 AM, and my hot lunch is waiting for me at 1 PM."</h3>
                         <div class="d-flex align-items-center justify-content-center gap-3">
                             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
                                 alt="Sarah Johnson" class="rounded-circle border border-2 border-white"
                                 style="width: 60px; height: 60px; object-fit: cover;">
                             <div class="text-start">
-                                <h6 class="mb-0 fw-bold">Sarah Johnson</h6>
+                                <h6 class="mb-0 fw-bold text-white">Sarah Johnson</h6>
                                 <small class="text-light">Marketing Director, TechCorp</small>
                             </div>
                         </div>
